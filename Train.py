@@ -30,7 +30,7 @@ class Train:
                     # Vẽ khung xương lên ảnh
                     frame = self.pose.draw_landmark_on_image(results, frame)
 
-                cv2.putText(frame, 'FPS: ' + str(len(self.lm_list)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 255, 123), 2, 2)
+                cv2.putText(frame, 'FRAME: ' + str(len(self.lm_list)), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 255, 123), 2, 2)
                 cv2.imshow("Make data", frame)
                 if cv2.waitKey(1) == ord('q'):
                     break

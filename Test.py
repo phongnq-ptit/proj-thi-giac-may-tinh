@@ -15,7 +15,7 @@ class Test:
     def draw_class_on_image(self, img, fps):
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(img, self.label, (10, 60), font, 1, (200, 255, 123), 2, 2)
-        cv2.putText(img, 'FPS: ' + str(fps), (10, 30), font, 1, (100, 255, 123), 2, 2)
+        cv2.putText(img, 'FRAME: ' + str(fps), (10, 30), font, 1, (100, 255, 123), 2, 2)
         return img
 
     def detect(self, model, lm_list):
