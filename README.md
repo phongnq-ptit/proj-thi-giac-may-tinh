@@ -4,6 +4,5 @@ Bai cuoi ky thi giac may tinh
 # install library
 - mediapipe
 - pandas
-- opencv-python
 - tensorflow
 - scikit-learn
