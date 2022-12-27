@@ -14,8 +14,8 @@ class Train:
         self.lm_list = []  # lưu lại các landmark
 
     def make_data(self, label):
-        # Đọc ảnh từ webcam
-        cap = cv2.VideoCapture(0)
+        # Đọc  video
+        cap = cv2.VideoCapture('./data/video/' + label + '.mp4')
 
         while len(self.lm_list) <= self.num_of_frames:
             ret, frame = cap.read()
@@ -43,27 +43,33 @@ class Train:
 
     def train_lstm(self):
         # Đọc dữ liệu
-        bodyswing_df = pd.read_csv("./data/SWING.txt")
-        handswing_df = pd.read_csv("./data/HANDSWING.txt")
+        nhintrom_df = pd.read_csv("./data/" + 'NHINTROM.txt')
+        quayphao_df = pd.read_csv("./data/" + 'QUAYPHAO.txt')
+        vietbai_df = pd.read_csv("./data/" + 'VIETBAI.txt')
 
         X = []
         y = []
         no_of_timesteps = 10
 
-        dataset = bodyswing_df.iloc[:, 1:].values
-        n_sample = len(dataset)
-        for i in range(no_of_timesteps, n_sample):
-            X.append(dataset[i - no_of_timesteps:i, :])
-            y.append(1)
-
-        dataset = handswing_df.iloc[:, 1:].values
+        dataset = nhintrom_df.iloc[:, 1:].values
         n_sample = len(dataset)
         for i in range(no_of_timesteps, n_sample):
             X.append(dataset[i - no_of_timesteps:i, :])
             y.append(0)
 
+        dataset = quayphao_df.iloc[:, 1:].values
+        n_sample = len(dataset)
+        for i in range(no_of_timesteps, n_sample):
+            X.append(dataset[i - no_of_timesteps:i, :])
+            y.append(1)
+
+        dataset = vietbai_df.iloc[:, 1:].values
+        n_sample = len(dataset)
+        for i in range(no_of_timesteps, n_sample):
+            X.append(dataset[i - no_of_timesteps:i, :])
+            y.append(2)
+
         X, y = np.array(X), np.array(y)
-        print(X.shape, y.shape)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
@@ -83,12 +89,20 @@ class Train:
         model.save("model.h5")
 
 
-file_name = ['SWING.txt', 'HANDSWING.txt']
+file_video = ['./data/video/NHINTROM.mp4', './data/video/QUAYPHAO.mp4', './data/video/VIETBAI.mp4']
+file_name = ['NHINTROM', 'QUAYPHAO', 'VIETBAI']
+file_train = ['NHINTROM.txt', 'QUAYPHAO.txt', 'VIETBAI.txt']
+
 train = Train()
-train.make_data('SWING')
 
+# make data
+# for i in range(0, 3, 1):
+#     train.make_data(file_name[i], file_video[i])
 
+# train.make_data('VIETBAI')
 
-#train.train_lstm()
+# train model
+# for i in range(0, 3, 1):
+#     train.train_lstm(file_train[i], i)
 
-
+train.train_lstm()

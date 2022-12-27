@@ -21,16 +21,20 @@ class Test:
     def detect(self, model, lm_list):
         lm_list = np.array(lm_list)
         lm_list = np.expand_dims(lm_list, axis=0)
-        print(lm_list.shape)
+        # print(lm_list.shape)
         results = model.predict(lm_list)
         print(results)
-        if results[0][0] > 0.5:
-            self.label = "SWING BODY"
+        print(results[0][0])
+        if results[0][0] > 1.5:
+            self.label = "VIETBAI"
+        elif results[0][0] > 0.5 and results[0][0] < 1.5:
+            self.label = "QUAYPHAO"
         else:
-            self.label = "SWING HAND"
+            self.label = "NHINTROM"
 
     def test(self):
         model = tf.keras.models.load_model("model.h5")
+        # cap = cv2.VideoCapture("./data/video/VIETBAI.mp4")
         cap = cv2.VideoCapture(0)
         i = 0
         loading_frames = 60
